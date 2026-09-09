@@ -36,37 +36,20 @@ const PROJECTS: ProjectData[] = [
   },
   {
     number: '02',
-    title: 'Task Manager System (Trello-lite)',
-    category: 'FULL STACK BACKEND / JWT SECURITY',
+    title: 'Task Manager System',
+    category: 'FULL STACK BACKEND / RESTFUL API',
     description:
-      'Comprehensive RESTful API for managing projects, tasks, and user roles with stateless JWT authentication and role-based access.',
+      'Comprehensive RESTful API using Java, Spring Boot, Hibernate (JPA), and MySQL to manage projects, tasks, and user roles.',
     bullets: [
       'Developed a RESTful API using Java, Spring Boot, Hibernate (JPA), and MySQL to manage projects, tasks, and user roles.',
       'Implemented user management with registration, login, profile view, and role-based access (USER/ADMIN).',
       'Built project and task management features, allowing creation, assignment, and status tracking of tasks within projects.',
       'Applied Spring Data JPA, validation, and Lombok for efficient database interaction and maintainable architecture.',
     ],
-    techStack: ['Java', 'Spring Boot', 'Hibernate/JPA', 'Maven', 'MySQL', 'JWT', 'Lombok'],
+    techStack: ['Java', 'Spring Boot', 'Hibernate/JPA', 'Maven', 'MySQL', 'Lombok'],
     github: 'https://github.com',
     gradient: 'from-blue-900/40 via-cyan-900/20 to-gray-950',
     accent: '#00f0ff',
-  },
-  {
-    number: '03',
-    title: 'Recruitment Management System',
-    category: 'MICROSERVICES / THIRD-PARTY API INTEGRATION',
-    description:
-      'Backend infrastructure supporting applicant profiles, resume uploads (PDF/DOCX), and third-party automated parser API integration.',
-    bullets: [
-      'Developed backend supporting user profiles, resume uploads (PDF/DOCX), and secure role-based access.',
-      'Integrated third-party API for automated resume parsing and applicant data extraction.',
-      'Implemented and tested RESTful APIs for job postings, applicant browsing, and application submission using Postman.',
-      'Enabled admin features to manage job openings and review extracted applicant information.',
-    ],
-    techStack: ['Java', 'Spring Boot', 'REST APIs', 'JWT', 'Resume Parser API', 'Postman'],
-    github: 'https://github.com',
-    gradient: 'from-purple-900/40 via-violet-900/20 to-gray-950',
-    accent: '#a78bfa',
   },
 ];
 
@@ -84,13 +67,8 @@ export default function Home() {
     },
     {
       id: 'project-2',
-      label: 'Task Manager (Trello-lite)',
+      label: 'Task Manager System',
       component: <SingleProjectSlide project={PROJECTS[1]} />,
-    },
-    {
-      id: 'project-3',
-      label: 'Recruitment Management',
-      component: <SingleProjectSlide project={PROJECTS[2]} />,
     },
     { id: 'experience', label: 'Experience', component: <Experience /> },
     { id: 'services', label: 'Services', component: <Services /> },
@@ -111,7 +89,7 @@ export default function Home() {
       {/* 4. Navbar */}
       <Navbar />
 
-      {/* 5. Main Spatial Flight Deck */}
+      {/* 5. Main 3D Spatial Flight Deck */}
       <main className="relative z-10 min-h-screen bg-transparent text-[#f4f4f5]">
         <SpatialDeck sections={deckSections} />
       </main>

@@ -7,31 +7,31 @@ export default function Services() {
   const services = [
     {
       num: '01',
-      title: 'RESTful API & Microservice Engineering',
-      desc: 'Designing clean, maintainable Spring Boot backends with Spring Data JPA, Hibernate ORM, and Lombok for scalable relational (MySQL) and NoSQL (MongoDB) data persistence.',
+      title: 'Production Feature Development (Java & PHP)',
+      desc: 'Building and maintaining live production software features for enterprise platforms (Fastbooking/Agoda) using Java, PHP, Spring Boot, MySQL, and modern JavaScript.',
       icon: <Code2 size={24} className="text-[#ccff00]" />,
-      tags: ['Spring Boot', 'REST APIs', 'MySQL', 'JPA'],
+      tags: ['Java', 'PHP', 'Spring Boot', 'Live Production'],
     },
     {
       num: '02',
-      title: 'Thread-Safe Ingestion & Transaction Systems',
-      desc: 'Architecting high-concurrency event ingestion pipelines using database-level uniqueness constraints, transaction management, and time-based statistics APIs.',
+      title: 'Database Design & MySQL Query Optimization',
+      desc: 'Writing and optimizing high-performance MySQL queries, enforcing database-level uniqueness constraints, and designing scalable relational schemas for internal tools.',
       icon: <Cpu size={24} className="text-[#ccff00]" />,
-      tags: ['Concurrency', 'Transactions', 'H2', 'Metrics'],
+      tags: ['MySQL', 'Query Optimization', 'JPA', 'Transactions'],
     },
     {
       num: '03',
-      title: 'DevOps & Containerization Pipelines',
-      desc: 'Building multi-stage Docker images, Docker Compose orchestrations, and automated CI/CD workflows using Jenkins and GitHub Actions.',
-      icon: <Server size={24} className="text-[#ccff00]" />,
-      tags: ['Docker', 'Jenkins', 'GitHub Actions', 'CI/CD'],
+      title: 'API Testing & Documentation (Postman & Swagger)',
+      desc: 'Designing stateless RESTful APIs, authoring interactive Swagger (OpenAPI) documentation, and building comprehensive Postman test collections.',
+      icon: <ShieldCheck size={24} className="text-[#ccff00]" />,
+      tags: ['Swagger', 'Postman', 'REST APIs', 'JWT'],
     },
     {
       num: '04',
-      title: 'API Security & Network Automation',
-      desc: 'Implementing JWT role-based access control (USER/ADMIN), third-party API integrations, Postman test suites, and networking fundamentals (TCP/IP, VPC/Subnets).',
-      icon: <ShieldCheck size={24} className="text-[#ccff00]" />,
-      tags: ['JWT Auth', 'Postman', 'VPC', 'Linux'],
+      title: 'DevOps & Containerization Pipelines',
+      desc: 'Creating multi-stage Docker images, Docker Compose setups, and automated GitHub Actions CI/CD workflows for reliable application deployment.',
+      icon: <Server size={24} className="text-[#ccff00]" />,
+      tags: ['Docker', 'GitHub Actions', 'Linux', 'CI/CD'],
     },
   ];
 
@@ -44,7 +44,7 @@ export default function Services() {
             04 // SPECIALIZATIONS
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#f4f4f5]">
-            ENGINEERING SERVICES<span className="text-[#ccff00]">.</span>
+            ENGINEERING OFFERINGS<span className="text-[#ccff00]">.</span>
           </h2>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/gsap';
-import { ArrowDownRight, Server, ShieldCheck, Cpu } from 'lucide-react';
+import { ArrowDownRight } from 'lucide-react';
 
 interface HeroProps {
   ready?: boolean;
@@ -66,7 +66,7 @@ export default function Hero({ ready = true }: HeroProps) {
       <div ref={labelRef} className="opacity-0">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 font-mono text-xs text-[#888890] uppercase tracking-widest">
           <span className="w-2 h-2 rounded-full bg-[#ccff00]"></span>
-          <span>SAMIA SABA // JAVA BACKEND & DEVOPS ENGINEER</span>
+          <span>SAMIA SABA // JAVA, SPRING BOOT & API DEVELOPER</span>
         </div>
       </div>
 
@@ -77,14 +77,14 @@ export default function Hero({ ready = true }: HeroProps) {
           className="text-display-giant font-extrabold tracking-tighter text-[#f4f4f5] opacity-0"
           data-cursor="SAMIA"
         >
-          BACKEND &
+          SOFTWARE
         </h1>
         <h1
           ref={titleLine2Ref}
           className="text-display-giant font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#f4f4f5] via-[#888890] to-[#ccff00] opacity-0"
-          data-cursor="ENGINEER"
+          data-cursor="DEVELOPER"
         >
-          DEVOPS<span className="text-[#ccff00]">.</span>
+          ENGINEER<span className="text-[#ccff00]">.</span>
         </h1>
       </div>
 
@@ -92,7 +92,7 @@ export default function Hero({ ready = true }: HeroProps) {
       <div ref={introRef} className="opacity-0 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
         <div className="lg:col-span-7 space-y-4">
           <p className="text-lg sm:text-2xl text-[#888890] font-light max-w-2xl leading-relaxed">
-            Building high-throughput Java Spring Boot backend microservices, thread-safe ingestion platforms, containerized CI/CD pipelines & cloud architectures.
+            B.Tech Computer Science graduate with hands-on production experience at <span className="text-[#f4f4f5] font-normal">IGT Solutions (Fastbooking, Agoda)</span> building live Java, Spring Boot, MySQL & REST API features.
           </p>
         </div>
 
@@ -115,19 +115,19 @@ export default function Hero({ ready = true }: HeroProps) {
         </div>
       </div>
 
-      {/* Footer Info & Animated Scroll Down Indicator */}
+      {/* Footer Info */}
       <div
         ref={footerInfoRef}
         className="opacity-0 pt-12 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs text-[#888890]"
       >
         <div className="flex items-center gap-8">
           <div>
-            <span className="block text-[10px] text-[#888890] uppercase">Education</span>
-            <span className="text-[#f4f4f5] font-semibold">B.Tech CSE (CGPA 8.5)</span>
+            <span className="block text-[10px] text-[#888890] uppercase">Experience</span>
+            <span className="text-[#f4f4f5] font-semibold">IGT Solutions (Fastbooking, Agoda)</span>
           </div>
           <div>
             <span className="block text-[10px] text-[#888890] uppercase">Core Tech</span>
-            <span className="text-[#f4f4f5] font-semibold">Java • Spring Boot • Docker • REST</span>
+            <span className="text-[#f4f4f5] font-semibold">Java • Spring Boot • MySQL • Swagger</span>
           </div>
         </div>
 

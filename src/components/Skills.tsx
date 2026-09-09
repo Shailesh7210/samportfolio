@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Cpu, Terminal, Server, Database, ShieldCheck, GitBranch, Layers } from 'lucide-react';
+import { Cpu, Server, Database, ShieldCheck, GitBranch, Layers, Users, Monitor } from 'lucide-react';
 
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState(0);
@@ -12,11 +12,10 @@ export default function Skills() {
       icon: <Cpu size={20} className="text-[#ccff00]" />,
       skills: [
         { name: 'Java', level: 'Expert', desc: 'Core Java, OOP, Multithreading, Streams API' },
-        { name: 'Spring Boot', level: 'Advanced', desc: 'REST Controllers, Services, Auto-config' },
-        { name: 'Hibernate / JPA', level: 'Advanced', desc: 'ORM, Entity mapping, Criteria queries' },
+        { name: 'Spring Boot', level: 'Advanced', desc: 'REST Controllers, Services, Auto-configuration' },
+        { name: 'Hibernate', level: 'Advanced', desc: 'ORM, Entity mapping, Criteria queries' },
         { name: 'Maven', level: 'Advanced', desc: 'Dependency management, Build lifecycles' },
-        { name: 'Spring Security', level: 'Intermediate', desc: 'Authentication, Authorization, Filters' },
-        { name: 'JavaScript / HTML / CSS', level: 'Intermediate', desc: 'Frontend basics & integration' },
+        { name: 'JavaScript / HTML / CSS', level: 'Advanced', desc: 'Frontend UI development & API integration' },
       ],
     },
     {
@@ -24,8 +23,7 @@ export default function Skills() {
       icon: <Server size={20} className="text-[#ccff00]" />,
       skills: [
         { name: 'Docker (CLI, Dockerfile, Compose)', level: 'Advanced', desc: 'Containerization, multi-stage builds' },
-        { name: 'Jenkins', level: 'Intermediate', desc: 'Automated CI pipelines & build jobs' },
-        { name: 'GitHub Actions', level: 'Advanced', desc: 'Workflow automation & automated deployment' },
+        { name: 'GitHub Actions', level: 'Advanced', desc: 'Automated CI/CD workflows & build pipelines' },
       ],
     },
     {
@@ -34,33 +32,48 @@ export default function Skills() {
       skills: [
         { name: 'TCP/IP & DNS', level: 'Proficient', desc: 'Protocol fundamentals & domain resolution' },
         { name: 'HTTP / HTTPS', level: 'Expert', desc: 'REST verb semantics, headers, status codes' },
-        { name: 'VPC & Subnets', level: 'Intermediate', desc: 'Virtual private clouds, network security groups' },
+        { name: 'VPC / Subnets', level: 'Intermediate', desc: 'Virtual private clouds, network security groups' },
       ],
     },
     {
-      title: 'DATABASES & STORAGE',
+      title: 'DATABASES & DATA MANAGEMENT',
       icon: <Database size={20} className="text-[#ccff00]" />,
       skills: [
-        { name: 'MySQL', level: 'Advanced', desc: 'Relational schemas, indexing, foreign keys' },
+        { name: 'MySQL', level: 'Expert', desc: 'Query optimization, relational schemas, indexing' },
         { name: 'MongoDB', level: 'Intermediate', desc: 'Document schemas, aggregation pipelines' },
-        { name: 'H2 Database', level: 'Advanced', desc: 'In-memory testing DB for Spring Boot integration' },
       ],
     },
     {
-      title: 'API TESTING & SECURITY',
+      title: 'API DEVELOPMENT & TESTING',
       icon: <ShieldCheck size={20} className="text-[#ccff00]" />,
       skills: [
-        { name: 'RESTful APIs', level: 'Expert', desc: 'Stateless API design, JSON payloads' },
         { name: 'Postman', level: 'Advanced', desc: 'API testing collections, environment variables' },
-        { name: 'JWT Authentication', level: 'Advanced', desc: 'Token authorization, stateless security' },
+        { name: 'Swagger (OpenAPI)', level: 'Advanced', desc: 'Interactive API documentation & endpoints testing' },
       ],
     },
     {
-      title: 'VERSION CONTROL & OS',
+      title: 'VERSION CONTROL',
       icon: <GitBranch size={20} className="text-[#ccff00]" />,
       skills: [
-        { name: 'Git & GitHub', level: 'Advanced', desc: 'Branching, PRs, version history' },
-        { name: 'Linux / Unix Fundamentals', level: 'Advanced', desc: 'CLI commands, file permissions, shell tools' },
+        { name: 'Git', level: 'Advanced', desc: 'Branching strategies, rebase, merge conflicts' },
+        { name: 'GitHub', level: 'Advanced', desc: 'Pull requests, code reviews, organization repos' },
+      ],
+    },
+    {
+      title: 'OPERATING SYSTEMS',
+      icon: <Monitor size={20} className="text-[#ccff00]" />,
+      skills: [
+        { name: 'Linux / Unix Fundamentals', level: 'Advanced', desc: 'CLI commands, file permissions, shell scripts' },
+        { name: 'Windows', level: 'Proficient', desc: 'Environment management & developer CLI tools' },
+      ],
+    },
+    {
+      title: 'SOFT SKILLS',
+      icon: <Users size={20} className="text-[#ccff00]" />,
+      skills: [
+        { name: 'Team Collaboration', level: 'Core', desc: 'Cross-functional engineering communication' },
+        { name: 'Fast Learner', level: 'Core', desc: 'Quickly mastering new tech stacks (Java/PHP)' },
+        { name: 'Adaptability', level: 'Core', desc: 'Thriving in fast-paced production environments' },
       ],
     },
   ];
@@ -74,19 +87,19 @@ export default function Skills() {
             02 // TECHNICAL MATRIX
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#f4f4f5]">
-            CORE SKILLS & TECH STACK<span className="text-[#ccff00]">.</span>
+            CORE SKILLS & COMPETENCIES<span className="text-[#ccff00]">.</span>
           </h2>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Category Menu Buttons */}
-        <div className="lg:col-span-4 flex flex-col gap-3">
+        <div className="lg:col-span-4 flex flex-col gap-2 max-h-[420px] overflow-y-auto pr-2">
           {categories.map((cat, idx) => (
             <button
               key={idx}
               onClick={() => setActiveCategory(idx)}
-              className={`p-4 rounded-xl font-mono text-xs font-bold text-left transition-all duration-300 flex items-center justify-between border ${
+              className={`p-3.5 rounded-xl font-mono text-xs font-bold text-left transition-all duration-300 flex items-center justify-between border ${
                 activeCategory === idx
                   ? 'bg-[#ccff00] text-black border-[#ccff00] shadow-lg shadow-[#ccff00]/20 scale-[1.02]'
                   : 'glass-panel text-[#888890] border-white/10 hover:border-white/30 hover:text-white'
@@ -96,7 +109,7 @@ export default function Skills() {
                 {React.cloneElement(cat.icon, {
                   className: activeCategory === idx ? 'text-black' : 'text-[#ccff00]',
                 })}
-                <span>{cat.title}</span>
+                <span className="truncate">{cat.title}</span>
               </div>
               <span className="text-[10px] opacity-70">
                 ({cat.skills.length})
@@ -137,7 +150,7 @@ export default function Skills() {
 
           <div className="mt-8 pt-4 border-t border-white/10 flex justify-between font-mono text-xs text-[#888890]">
             <span>STRICT ACCORDANCE WITH RESUME PROFILE</span>
-            <span className="text-[#ccff00]">JAVA & DEVOPS READY</span>
+            <span className="text-[#ccff00]">PRODUCTION READY</span>
           </div>
         </div>
       </div>
