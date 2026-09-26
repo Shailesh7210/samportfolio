@@ -219,6 +219,7 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
             <button
               key={sec.id}
               onClick={() => scrollToSlide(i)}
+              suppressHydrationWarning
               className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
                 activeIndex === i
                   ? 'bg-[#ccff00] scale-125 shadow-lg shadow-[#ccff00]/60'
