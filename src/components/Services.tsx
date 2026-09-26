@@ -1,92 +1,116 @@
 "use client";
 
 import React from 'react';
-import { Server, ShieldCheck, Cpu, Code2, ArrowUpRight } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
+import { Code2, Cpu, ShieldCheck, Server } from 'lucide-react';
+
+const SERVICES = [
+  {
+    icon: <Code2 className="text-[#ccff00]" size={26} />,
+    title: 'Production Feature Development (Java & PHP)',
+    tag: '01 // PRODUCTION',
+    description:
+      'Building and maintaining live production software features for enterprise platforms (Fastbooking/Agoda) using Java, PHP, Spring Boot, MySQL, and modern JavaScript.',
+  },
+  {
+    icon: <Cpu className="text-[#00f0ff]" size={26} />,
+    title: 'Database Query Optimization & Schemas',
+    tag: '02 // DATABASE',
+    description:
+      'Writing & optimizing high-performance MySQL queries, enforcing database-level uniqueness constraints, and designing scalable relational schemas for internal tools.',
+  },
+  {
+    icon: <ShieldCheck className="text-[#a78bfa]" size={26} />,
+    title: 'RESTful API & Swagger Documentation',
+    tag: '03 // APIS',
+    description:
+      'Designing stateless RESTful APIs, authoring interactive Swagger (OpenAPI) documentation, and building automated Postman testing collections.',
+  },
+  {
+    icon: <Server className="text-[#34d399]" size={26} />,
+    title: 'DevOps & Containerization Pipelines',
+    tag: '04 // DEVOPS',
+    description:
+      'Creating multi-stage Docker images, Docker Compose orchestrations, and automated GitHub Actions CI/CD workflows for reliable application deployment.',
+  },
+];
 
 export default function Services() {
-  const services = [
-    {
-      num: '01',
-      title: 'Production Feature Development (Java & PHP)',
-      desc: 'Building and maintaining live production software features for enterprise platforms (Fastbooking/Agoda) using Java, PHP, Spring Boot, MySQL, and modern JavaScript.',
-      icon: <Code2 size={24} className="text-[#ccff00]" />,
-      tags: ['Java', 'PHP', 'Spring Boot', 'Live Production'],
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
     },
-    {
-      num: '02',
-      title: 'Database Design & MySQL Query Optimization',
-      desc: 'Writing and optimizing high-performance MySQL queries, enforcing database-level uniqueness constraints, and designing scalable relational schemas for internal tools.',
-      icon: <Cpu size={24} className="text-[#ccff00]" />,
-      tags: ['MySQL', 'Query Optimization', 'JPA', 'Transactions'],
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 35, scale: 0.96, filter: 'blur(8px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
-    {
-      num: '03',
-      title: 'API Testing & Documentation (Postman & Swagger)',
-      desc: 'Designing stateless RESTful APIs, authoring interactive Swagger (OpenAPI) documentation, and building comprehensive Postman test collections.',
-      icon: <ShieldCheck size={24} className="text-[#ccff00]" />,
-      tags: ['Swagger', 'Postman', 'REST APIs', 'JWT'],
-    },
-    {
-      num: '04',
-      title: 'DevOps & Containerization Pipelines',
-      desc: 'Creating multi-stage Docker images, Docker Compose setups, and automated GitHub Actions CI/CD workflows for reliable application deployment.',
-      icon: <Server size={24} className="text-[#ccff00]" />,
-      tags: ['Docker', 'GitHub Actions', 'Linux', 'CI/CD'],
-    },
-  ];
+  };
 
   return (
-    <section id="services" className="w-full space-y-10">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-6">
-        <div>
-          <span className="font-mono text-xs text-[#ccff00] uppercase tracking-widest block mb-1">
-            04 // SPECIALIZATIONS
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#f4f4f5]">
-            ENGINEERING OFFERINGS<span className="text-[#ccff00]">.</span>
-          </h2>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-50px' }}
+      className="w-full max-w-7xl mx-auto space-y-14 sm:space-y-16"
+    >
+      {/* Section Header */}
+      <motion.div variants={itemVariants} className="space-y-2">
+        <div className="flex items-center gap-3 font-mono text-xs text-[#ccff00] uppercase tracking-widest">
+          <span>// 05. CAPABILITIES</span>
+          <div className="h-[1px] w-24 bg-[#ccff00]/30"></div>
         </div>
-      </div>
+        <h2 className="text-display-sub font-extrabold tracking-tighter text-[#f4f4f5]">
+          SERVICES & EXPERTISE<span className="text-[#ccff00]">.</span>
+        </h2>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {services.map((srv, idx) => (
-          <div
-            key={idx}
-            className="glass-panel p-8 rounded-2xl border border-white/10 glass-panel-hover flex flex-col justify-between"
+      {/* Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {SERVICES.map((srv) => (
+          <motion.div
+            key={srv.title}
+            variants={itemVariants}
+            className="glass-panel glass-panel-hover tech-card-corner p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 group h-full"
+            data-cursor="SERVICE"
           >
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:border-[#ccff00]/50 transition-colors">
                   {srv.icon}
                 </div>
-                <span className="font-mono text-2xl font-extrabold text-[#ccff00]">
-                  {srv.num}
+                <span className="font-mono text-xs text-[#888890]">
+                  {srv.tag}
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold font-mono text-[#f4f4f5] mb-3">
+              <h3 className="text-lg font-bold text-[#f4f4f5] group-hover:text-[#ccff00] transition-colors leading-snug">
                 {srv.title}
               </h3>
 
-              <p className="text-sm text-[#888890] font-light leading-relaxed mb-6">
-                {srv.desc}
+              <p className="text-xs sm:text-sm text-[#888890] font-light leading-relaxed">
+                {srv.description}
               </p>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex flex-wrap gap-2">
-              {srv.tags.map((tag, tIdx) => (
-                <span
-                  key={tIdx}
-                  className="px-2.5 py-1 rounded bg-[#ccff00]/10 text-[#ccff00] border border-[#ccff00]/20 font-mono text-[10px]"
-                >
-                  {tag}
-                </span>
-              ))}
+            <div className="pt-3 border-t border-white/5 font-mono text-xs text-[#888890] group-hover:text-white transition-colors">
+              PRODUCTION READY →
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.div>
   );
 }

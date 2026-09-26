@@ -1,159 +1,141 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Cpu, Server, Database, ShieldCheck, GitBranch, Layers, Users, Monitor } from 'lucide-react';
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
+
+const SKILL_CATEGORIES = [
+  {
+    number: '01',
+    category: 'PROGRAMMING & FRAMEWORKS',
+    skills: ['Java', 'Spring Boot', 'Hibernate', 'Maven', 'HTML5', 'CSS3', 'JavaScript', 'PHP'],
+    accent: '#ccff00',
+  },
+  {
+    number: '02',
+    category: 'DATABASES & DATA MANAGEMENT',
+    skills: ['MySQL (Query Optimization)', 'MongoDB', 'H2 Database', 'Spring Data JPA', 'Relational Schemas'],
+    accent: '#00f0ff',
+  },
+  {
+    number: '03',
+    category: 'DEVOPS, CI/CD & TOOLS',
+    skills: ['Docker (CLI/Compose)', 'GitHub Actions', 'Git & GitHub', 'Postman', 'Swagger (OpenAPI)', 'Linux/Bash'],
+    accent: '#a78bfa',
+  },
+  {
+    number: '04',
+    category: 'COMPETENCIES & SOFT SKILLS',
+    skills: ['Live Production Delivery', 'RESTful API Architecture', 'Team Collaboration', 'Fast Learner', 'Adaptability'],
+    accent: '#34d399',
+  },
+];
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState(0);
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-  const categories = [
-    {
-      title: 'PROGRAMMING & FRAMEWORKS',
-      icon: <Cpu size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Java', level: 'Expert', desc: 'Core Java, OOP, Multithreading, Streams API' },
-        { name: 'Spring Boot', level: 'Advanced', desc: 'REST Controllers, Services, Auto-configuration' },
-        { name: 'Hibernate', level: 'Advanced', desc: 'ORM, Entity mapping, Criteria queries' },
-        { name: 'Maven', level: 'Advanced', desc: 'Dependency management, Build lifecycles' },
-        { name: 'JavaScript / HTML / CSS', level: 'Advanced', desc: 'Frontend UI development & API integration' },
-      ],
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 35, scale: 0.96, filter: 'blur(8px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
-    {
-      title: 'DEVOPS & CI/CD',
-      icon: <Server size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Docker (CLI, Dockerfile, Compose)', level: 'Advanced', desc: 'Containerization, multi-stage builds' },
-        { name: 'GitHub Actions', level: 'Advanced', desc: 'Automated CI/CD workflows & build pipelines' },
-      ],
-    },
-    {
-      title: 'NETWORKING & CLOUD',
-      icon: <Layers size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'TCP/IP & DNS', level: 'Proficient', desc: 'Protocol fundamentals & domain resolution' },
-        { name: 'HTTP / HTTPS', level: 'Expert', desc: 'REST verb semantics, headers, status codes' },
-        { name: 'VPC / Subnets', level: 'Intermediate', desc: 'Virtual private clouds, network security groups' },
-      ],
-    },
-    {
-      title: 'DATABASES & DATA MANAGEMENT',
-      icon: <Database size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'MySQL', level: 'Expert', desc: 'Query optimization, relational schemas, indexing' },
-        { name: 'MongoDB', level: 'Intermediate', desc: 'Document schemas, aggregation pipelines' },
-      ],
-    },
-    {
-      title: 'API DEVELOPMENT & TESTING',
-      icon: <ShieldCheck size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Postman', level: 'Advanced', desc: 'API testing collections, environment variables' },
-        { name: 'Swagger (OpenAPI)', level: 'Advanced', desc: 'Interactive API documentation & endpoints testing' },
-      ],
-    },
-    {
-      title: 'VERSION CONTROL',
-      icon: <GitBranch size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Git', level: 'Advanced', desc: 'Branching strategies, rebase, merge conflicts' },
-        { name: 'GitHub', level: 'Advanced', desc: 'Pull requests, code reviews, organization repos' },
-      ],
-    },
-    {
-      title: 'OPERATING SYSTEMS',
-      icon: <Monitor size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Linux / Unix Fundamentals', level: 'Advanced', desc: 'CLI commands, file permissions, shell scripts' },
-        { name: 'Windows', level: 'Proficient', desc: 'Environment management & developer CLI tools' },
-      ],
-    },
-    {
-      title: 'SOFT SKILLS',
-      icon: <Users size={20} className="text-[#ccff00]" />,
-      skills: [
-        { name: 'Team Collaboration', level: 'Core', desc: 'Cross-functional engineering communication' },
-        { name: 'Fast Learner', level: 'Core', desc: 'Quickly mastering new tech stacks (Java/PHP)' },
-        { name: 'Adaptability', level: 'Core', desc: 'Thriving in fast-paced production environments' },
-      ],
-    },
-  ];
+  };
 
   return (
-    <section id="skills" className="w-full space-y-10">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-6">
-        <div>
-          <span className="font-mono text-xs text-[#ccff00] uppercase tracking-widest block mb-1">
-            02 // TECHNICAL MATRIX
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#f4f4f5]">
-            CORE SKILLS & COMPETENCIES<span className="text-[#ccff00]">.</span>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-50px' }}
+      className="w-full max-w-7xl mx-auto space-y-14 sm:space-y-16"
+    >
+      {/* Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <motion.div variants={itemVariants} className="space-y-2">
+          <div className="flex items-center gap-3 font-mono text-xs text-[#ccff00] uppercase tracking-widest">
+            <span>// 02. TECHNOLOGY STACK</span>
+            <div className="h-[1px] w-24 bg-[#ccff00]/30"></div>
+          </div>
+          <h2 className="text-display-sub font-extrabold tracking-tighter text-[#f4f4f5]">
+            {"CORE CAPABILITIES".split('').map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.02 }}
+                viewport={{ once: true }}
+              >
+                {char}
+              </motion.span>
+            ))}
+            <span className="text-[#ccff00]">.</span>
           </h2>
-        </div>
+        </motion.div>
+        <motion.p variants={itemVariants} className="font-mono text-xs text-[#888890] max-w-xs leading-relaxed">
+          PROFICIENT ACROSS JAVA BACKEND ENGINEERING, DATABASE OPTIMIZATION & DEVOPS AUTOMATION.
+        </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Category Menu Buttons */}
-        <div className="lg:col-span-4 flex flex-col gap-2 max-h-[420px] overflow-y-auto pr-2">
-          {categories.map((cat, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveCategory(idx)}
-              className={`p-3.5 rounded-xl font-mono text-xs font-bold text-left transition-all duration-300 flex items-center justify-between border ${
-                activeCategory === idx
-                  ? 'bg-[#ccff00] text-black border-[#ccff00] shadow-lg shadow-[#ccff00]/20 scale-[1.02]'
-                  : 'glass-panel text-[#888890] border-white/10 hover:border-white/30 hover:text-white'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {React.cloneElement(cat.icon, {
-                  className: activeCategory === idx ? 'text-black' : 'text-[#ccff00]',
-                })}
-                <span className="truncate">{cat.title}</span>
+      {/* Categories Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+        {SKILL_CATEGORIES.map((cat) => (
+          <motion.div
+            key={cat.category}
+            variants={itemVariants}
+            className="glass-panel glass-panel-hover tech-card-corner p-6 sm:p-8 rounded-2xl relative overflow-hidden group"
+            data-cursor="STACK"
+          >
+            {/* Background Oversized Category Number */}
+            <span className="absolute -right-4 -bottom-6 font-mono font-extrabold text-[8rem] leading-none text-white/[0.03] select-none group-hover:text-white/[0.06] transition-colors">
+              {cat.number}
+            </span>
+
+            <div className="relative z-10 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs font-bold tracking-widest text-[#888890]">
+                  [{cat.number}]
+                </span>
+                <span
+                  className="w-2.5 h-2.5 rounded-full shadow-[0_0_8px_currentColor]"
+                  style={{ backgroundColor: cat.accent, color: cat.accent }}
+                ></span>
               </div>
-              <span className="text-[10px] opacity-70">
-                ({cat.skills.length})
-              </span>
-            </button>
-          ))}
-        </div>
 
-        {/* Right Active Skills Grid */}
-        <div className="lg:col-span-8 glass-panel p-8 rounded-2xl border border-white/10 flex flex-col justify-between min-h-[380px]">
-          <div>
-            <div className="flex items-center gap-3 pb-6 mb-6 border-b border-white/10 font-mono text-sm text-[#ccff00]">
-              {categories[activeCategory].icon}
-              <span className="font-bold">{categories[activeCategory].title}</span>
+              <h3 className="font-mono text-xs sm:text-sm font-extrabold tracking-wider text-[#f4f4f5] uppercase">
+                {cat.category}
+              </h3>
+
+              {/* Tech Pills */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {cat.skills.map((skill, sIdx) => (
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: sIdx * 0.04 }}
+                    viewport={{ once: true }}
+                    className="px-3 py-1.5 rounded-md border border-white/10 bg-white/5 hover:border-[#ccff00] hover:bg-[#ccff00]/10 hover:text-[#ccff00] font-mono text-xs font-medium text-[#f4f4f5] transition-all duration-300 cursor-pointer"
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
+              </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {categories[activeCategory].skills.map((skill, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#ccff00]/40 transition-colors"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold font-mono text-[#f4f4f5] text-sm">
-                      {skill.name}
-                    </span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ccff00]/10 text-[#ccff00] border border-[#ccff00]/20">
-                      {skill.level}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#888890] font-light leading-relaxed">
-                    {skill.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 pt-4 border-t border-white/10 flex justify-between font-mono text-xs text-[#888890]">
-            <span>STRICT ACCORDANCE WITH RESUME PROFILE</span>
-            <span className="text-[#ccff00]">PRODUCTION READY</span>
-          </div>
-        </div>
+          </motion.div>
+        ))}
       </div>
-    </section>
+    </motion.div>
   );
 }
