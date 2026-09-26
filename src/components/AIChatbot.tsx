@@ -63,6 +63,7 @@ export default function AIChatbot() {
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        suppressHydrationWarning
         className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#ccff00] text-black shadow-2xl hover:scale-110 transition-all duration-300 flex items-center gap-2 font-mono font-bold text-xs uppercase"
         data-cursor="AI BOT"
       >
@@ -79,7 +80,7 @@ export default function AIChatbot() {
               <Sparkles size={16} />
               <span className="font-bold">SAMIA'S AI ASSISTANT</span>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-[#888890] hover:text-white">
+            <button onClick={() => setIsOpen(false)} suppressHydrationWarning className="text-[#888890] hover:text-white">
               <X size={16} />
             </button>
           </div>
@@ -111,15 +112,16 @@ export default function AIChatbot() {
           </div>
 
           {/* Input Form */}
-          <form onSubmit={handleSend} className="p-3 border-t border-white/10 flex items-center gap-2 bg-black/40">
+          <form onSubmit={handleSend} suppressHydrationWarning className="p-3 border-t border-white/10 flex items-center gap-2 bg-black/40">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about internship, skills, projects..."
+              suppressHydrationWarning
               className="flex-1 bg-transparent font-mono text-xs text-[#f4f4f5] focus:outline-none px-2"
             />
-            <button type="submit" className="p-2 rounded-lg bg-[#ccff00] text-black hover:bg-white transition-colors">
+            <button type="submit" suppressHydrationWarning className="p-2 rounded-lg bg-[#ccff00] text-black hover:bg-white transition-colors">
               <Send size={14} />
             </button>
           </form>

@@ -131,13 +131,14 @@ export default function Contact() {
         {/* Contact Form */}
         <motion.div variants={itemVariants} className="lg:col-span-7">
           <div className="glass-panel tech-card-corner p-6 sm:p-8 rounded-2xl space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1 font-mono text-[11px]">
                   <label className="text-[#888890] uppercase">Your Name *</label>
                   <input
                     type="text"
                     required
+                    suppressHydrationWarning
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Jane Doe"
@@ -150,6 +151,7 @@ export default function Contact() {
                   <input
                     type="email"
                     required
+                    suppressHydrationWarning
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="jane@company.com"
@@ -163,6 +165,7 @@ export default function Contact() {
                 <textarea
                   required
                   rows={3}
+                  suppressHydrationWarning
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell me about your vision..."
@@ -187,6 +190,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
+                suppressHydrationWarning
                 className="w-full py-4 rounded-xl bg-[#ccff00] text-black font-mono text-xs font-extrabold uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-[#ccff00]/10 flex items-center justify-center gap-2 cursor-pointer"
                 data-cursor="SEND"
               >
