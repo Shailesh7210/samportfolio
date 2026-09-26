@@ -48,29 +48,27 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
 
       stInstanceRef.current = timeline.scrollTrigger;
 
-      // Initial state setup for 3D stack
+      // Initial state setup for 3D stack using autoAlpha for seamless forward/reverse visibility
       slideRefs.current.forEach((slide, i) => {
         if (!slide) return;
         if (i === 0) {
           gsap.set(slide, {
-            opacity: 1,
+            autoAlpha: 1,
             scale: 1,
             z: 0,
             pointerEvents: 'auto',
-            visibility: 'visible',
           });
         } else {
           gsap.set(slide, {
-            opacity: 0,
+            autoAlpha: 0,
             scale: 0.15,
             z: -1800,
             pointerEvents: 'none',
-            visibility: i === 1 ? 'visible' : 'hidden',
           });
         }
       });
 
-      // Build 3D spatial zoom transitions for each slide step
+      // Build 3D spatial zoom transitions for each slide step using autoAlpha
       for (let i = 0; i < totalSlides - 1; i++) {
         const currentSlide = slideRefs.current[i];
         const nextSlide = slideRefs.current[i + 1];
@@ -79,43 +77,28 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
 
         const stepLabel = `step-${i}`;
 
-        // 1. Current slide zooms forward into camera and disappears
+        // 1. Current slide zooms forward into camera and auto-fades out (autoAlpha: 0)
         timeline
           .to(
             currentSlide,
             {
               scale: 2.5,
               z: 800,
-              opacity: 0,
+              autoAlpha: 0,
               pointerEvents: 'none',
               ease: 'power1.in',
-              onStart: () => {
-                if (currentSlide) currentSlide.style.visibility = 'visible';
-              },
-              onComplete: () => {
-                if (currentSlide) currentSlide.style.visibility = 'hidden';
-              },
-              onReverseComplete: () => {
-                if (currentSlide) currentSlide.style.visibility = 'visible';
-              },
             },
             stepLabel
           )
-          // 2. Next slide flies in from deep space to screen center
+          // 2. Next slide flies in from deep space to screen center and auto-fades in (autoAlpha: 1)
           .to(
             nextSlide,
             {
               scale: 1,
               z: 0,
-              opacity: 1,
+              autoAlpha: 1,
               pointerEvents: 'auto',
               ease: 'power2.out',
-              onStart: () => {
-                if (nextSlide) nextSlide.style.visibility = 'visible';
-              },
-              onReverseComplete: () => {
-                if (nextSlide) nextSlide.style.visibility = 'hidden';
-              },
             },
             stepLabel
           );
