@@ -31,17 +31,32 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
           scrub: 0.4,
           snap: {
             snapTo: 1 / (totalSlides - 1),
-            duration: { min: 0.2, max: 0.4 },
-            delay: 0.08,
-            ease: 'power1.out',
+            duration: { min: 0.25, max: 0.5 },
+            delay: 0.05,
+            ease: 'power1.inOut',
             directional: false,
           },
           onUpdate: (self) => {
+            const progressVal = self.progress * (totalSlides - 1);
             const idx = Math.min(
               totalSlides - 1,
-              Math.max(0, Math.round(self.progress * (totalSlides - 1)))
+              Math.max(0, Math.round(progressVal))
             );
             setActiveIndex(idx);
+
+            // Dynamic Visibility Management: Keep active and adjacent slides visible
+            // so returning backward from last section to top section is 100% fluid
+            slideRefs.current.forEach((slide, i) => {
+              if (!slide) return;
+              const dist = Math.abs(progressVal - i);
+              if (dist <= 1.2) {
+                slide.style.visibility = 'visible';
+                slide.style.pointerEvents = Math.round(progressVal) === i ? 'auto' : 'none';
+              } else {
+                slide.style.visibility = 'hidden';
+                slide.style.pointerEvents = 'none';
+              }
+            });
           },
         },
       });
@@ -84,20 +99,10 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
           .to(
             currentSlide,
             {
-              scale: 2.5,
-              z: 800,
+              scale: 2.8,
+              z: 900,
               opacity: 0,
-              pointerEvents: 'none',
-              ease: 'power1.in',
-              onStart: () => {
-                if (currentSlide) currentSlide.style.visibility = 'visible';
-              },
-              onComplete: () => {
-                if (currentSlide) currentSlide.style.visibility = 'hidden';
-              },
-              onReverseComplete: () => {
-                if (currentSlide) currentSlide.style.visibility = 'visible';
-              },
+              ease: 'power1.inOut',
             },
             stepLabel
           )
@@ -108,30 +113,54 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
               scale: 1,
               z: 0,
               opacity: 1,
-              pointerEvents: 'auto',
-              ease: 'power2.out',
-              onStart: () => {
-                if (nextSlide) nextSlide.style.visibility = 'visible';
-              },
-              onReverseComplete: () => {
-                if (nextSlide) nextSlide.style.visibility = 'hidden';
-              },
+              ease: 'power1.inOut',
             },
             stepLabel
           );
       }
     }, containerRef);
 
-    return () => ctx.revert();
+    // Global click listener for navbar links and buttons to trigger smooth spatial deck scroll
+    const handleGlobalNavClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const id = href.replace('#', '');
+          let targetIdx = 0;
+          if (id === 'hero' || id === '') {
+            targetIdx = 0;
+          } else {
+            targetIdx = sections.findIndex(
+              (s) => s.id === id || s.id.startsWith(id) || id.startsWith(s.id)
+            );
+            if (id === 'projects' || id === 'project') {
+              targetIdx = sections.findIndex((s) => s.id.includes('project'));
+            }
+          }
+
+          if (targetIdx !== -1) {
+            e.preventDefault();
+            scrollToSlide(targetIdx);
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleGlobalNavClick);
+
+    return () => {
+      document.removeEventListener('click', handleGlobalNavClick);
+      ctx.revert();
+    };
   }, [sections]);
 
   const scrollToSlide = (index: number) => {
-    if (index === 0) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!stInstanceRef.current) {
+      if (index === 0) window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
-    if (!stInstanceRef.current) return;
     const st = stInstanceRef.current;
     const totalSlides = sections.length;
     const targetScroll = st.start + (index / (totalSlides - 1)) * (st.end - st.start);
