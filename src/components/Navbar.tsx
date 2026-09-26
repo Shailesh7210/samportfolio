@@ -1,126 +1,110 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Terminal, Mail, Menu, X } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from '@/components/Icons';
+import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [timeString, setTimeString] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const updateClock = () => {
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      };
+      setTimeString(now.toLocaleTimeString('en-US', options) + ' IST');
+    };
+
+    updateClock();
+    const timer = setInterval(updateClock, 1000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(timer);
+    };
   }, []);
 
-  const navLinks = [
-    { label: 'ABOUT', href: '#about' },
-    { label: 'SKILLS', href: '#skills' },
-    { label: 'PROJECTS', href: '#projects' },
-    { label: 'EXPERIENCE', href: '#experience' },
-    { label: 'CONTACT', href: '#contact' },
-  ];
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'py-3 bg-[#070708]/80 backdrop-blur-md border-b border-white/10' : 'py-6 bg-transparent'
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      className={`fixed top-0 left-0 right-0 z-40 px-6 sm:px-12 py-5 transition-all duration-500 ${
+        scrolled
+          ? 'bg-[#070708]/80 backdrop-blur-xl border-b border-white/5 py-4'
+          : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
-        {/* Logo / Name */}
-        <a href="#hero" className="flex items-center gap-3 group" data-cursor="HOME">
-          <div className="w-9 h-9 rounded-lg bg-[#ccff00] text-black flex items-center justify-center font-mono font-black text-sm group-hover:rotate-6 transition-transform">
-            <Terminal size={18} />
-          </div>
-          <div>
-            <span className="font-mono text-sm font-bold tracking-tight text-[#f4f4f5] block">
-              SAMIA SABA
-            </span>
-            <span className="font-mono text-[10px] text-[#888890] block tracking-widest uppercase">
-              JAVA & DEVOPS ENGINEER
-            </span>
-          </div>
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Brand Logo */}
+        <a
+          href="#hero"
+          onClick={(e) => scrollToSection(e, 'hero')}
+          className="group flex items-center gap-3 font-mono text-sm tracking-wider uppercase font-bold text-[#f4f4f5]"
+          data-cursor="HOME"
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ccff00] group-hover:scale-150 transition-transform"></span>
+          <span>SAMIA SABA <span className="text-[#888890] font-normal">.DEV</span></span>
         </a>
 
-        {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-8 font-mono text-xs text-[#888890] uppercase tracking-wider">
-          {navLinks.map((link) => (
+        {/* Real-time Location & Status */}
+        <div className="hidden lg:flex items-center gap-6 font-mono text-xs text-[#888890]">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ccff00] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ccff00]"></span>
+            </span>
+            <span className="text-[#f4f4f5]">AVAILABLE FOR ROLES</span>
+          </div>
+          <span>•</span>
+          <span>INDIA {timeString}</span>
+        </div>
+
+        {/* Navigation Anchors */}
+        <nav className="hidden md:flex items-center gap-8 font-mono text-xs tracking-widest text-[#888890] uppercase">
+          {['about', 'skills', 'projects', 'experience', 'services', 'contact'].map((item) => (
             <a
-              key={link.label}
-              href={link.href}
-              className="hover:text-[#ccff00] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#ccff00] hover:after:w-full after:transition-all"
-              data-cursor={link.label}
+              key={item}
+              href={`#${item}`}
+              onClick={(e) => scrollToSection(e, item)}
+              className="hover:text-[#ccff00] transition-colors relative py-1 group"
+              data-cursor="NAV"
             >
-              {link.label}
+              {item}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#ccff00] group-hover:w-full transition-all duration-300"></span>
             </a>
           ))}
         </nav>
 
-        {/* Social Actions */}
-        <div className="hidden md:flex items-center gap-4 font-mono text-xs">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full border border-white/10 hover:border-[#ccff00] hover:text-[#ccff00] text-[#888890] transition-colors"
-            title="GitHub"
-            data-cursor="GITHUB"
-          >
-            <GithubIcon size={16} />
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full border border-white/10 hover:border-[#ccff00] hover:text-[#ccff00] text-[#888890] transition-colors"
-            title="LinkedIn"
-            data-cursor="LINKEDIN"
-          >
-            <LinkedinIcon size={16} />
-          </a>
-          <a
-            href="mailto:samia.saba0422@gmail.com"
-            className="px-4 py-2 rounded-full border border-[#ccff00]/40 bg-[#ccff00]/10 text-[#ccff00] font-bold hover:bg-[#ccff00] hover:text-black transition-all duration-300 flex items-center gap-2"
-            data-cursor="HIRE"
-          >
-            <Mail size={14} />
-            <span>RESUME / HIRE</span>
-          </a>
-        </div>
-
-        {/* Mobile Hamburger Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-[#f4f4f5] focus:outline-none"
+        {/* Quick Contact CTA */}
+        <a
+          href="#contact"
+          onClick={(e) => scrollToSection(e, 'contact')}
+          className="px-5 py-2 rounded-full border border-white/15 bg-white/5 hover:border-[#ccff00] hover:bg-[#ccff00] hover:text-black font-mono text-xs font-bold uppercase transition-all duration-300"
+          data-cursor="HIRE"
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          LET&apos;S TALK
+        </a>
       </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#070708] border-b border-white/10 px-6 py-6 space-y-4 font-mono text-sm uppercase">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-[#888890] hover:text-[#ccff00] py-2"
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="pt-4 border-t border-white/10 flex items-center gap-4">
-            <a href="mailto:samia.saba0422@gmail.com" className="text-[#ccff00] font-bold">
-              samia.saba0422@gmail.com
-            </a>
-          </div>
-        </div>
-      )}
-    </header>
+    </motion.header>
   );
 }

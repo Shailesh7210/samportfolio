@@ -1,76 +1,99 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function CustomCursor() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(true);
+  const [position, setPosition] = useState({ x: -100, y: -100 });
+  const [cursorText, setCursorText] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      setIsTouchDevice(true);
+      return;
+    }
 
-    if (isMobile) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX;
-      const y = e.clientY;
-
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      }
-      if (textRef.current) {
-        textRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      }
+    const onMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
 
       const target = e.target as HTMLElement | null;
-      const hoverable = target?.closest('[data-cursor]');
-      if (hoverable) {
-        const text = hoverable.getAttribute('data-cursor') || '';
-        if (cursorRef.current) {
-          cursorRef.current.style.width = '48px';
-          cursorRef.current.style.height = '48px';
-        }
-        if (textRef.current) {
-          textRef.current.innerText = text;
-          textRef.current.style.opacity = '1';
+      if (!target) return;
+
+      const interactive = target.closest('[data-cursor], a, button, input, textarea');
+
+      if (interactive) {
+        setIsHovered(true);
+        const attrText = interactive.getAttribute('data-cursor');
+        if (attrText) {
+          setCursorText(attrText);
+        } else if (interactive.tagName === 'A') {
+          setCursorText('OPEN');
+        } else if (interactive.tagName === 'BUTTON') {
+          setCursorText('CLICK');
+        } else {
+          setCursorText('');
         }
       } else {
-        if (cursorRef.current) {
-          cursorRef.current.style.width = '10px';
-          cursorRef.current.style.height = '10px';
-        }
-        if (textRef.current) {
-          textRef.current.innerText = '';
-          textRef.current.style.opacity = '0';
-        }
+        setIsHovered(false);
+        setCursorText('');
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mousemove', onMouseMove);
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  }, []);
 
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [isMobile]);
-
-  if (isMobile) return null;
+  if (isTouchDevice) return null;
 
   return (
     <>
-      <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 z-50 pointer-events-none rounded-full bg-[#ccff00] mix-blend-difference transition-[width,height] duration-200 ease-out will-change-transform"
-        style={{ width: '10px', height: '10px' }}
-      />
-      <div
-        ref={textRef}
-        className="fixed top-0 left-0 z-50 pointer-events-none font-mono text-[10px] font-bold text-black uppercase tracking-widest flex items-center justify-center opacity-0 transition-opacity duration-150 will-change-transform"
+      {/* Outer Follower Ring */}
+      <motion.div
+        className="fixed top-0 left-0 z-50 pointer-events-none rounded-full flex items-center justify-center font-mono text-[10px] font-bold tracking-wider uppercase text-black"
+        animate={{
+          x: position.x - (isHovered ? 36 : 14),
+          y: position.y - (isHovered ? 36 : 14),
+          width: isHovered ? 72 : 28,
+          height: isHovered ? 72 : 28,
+          backgroundColor: isHovered ? '#ccff00' : 'transparent',
+          borderColor: isHovered ? '#ccff00' : 'rgba(255, 255, 255, 0.4)',
+          borderWidth: isHovered ? 0 : 1.5,
+          scale: isHovered ? 1.15 : 1,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 400,
+          damping: 28,
+          mass: 0.5,
+        }}
+      >
+        {isHovered && cursorText && (
+          <motion.span
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            className="select-none text-black font-extrabold"
+          >
+            {cursorText}
+          </motion.span>
+        )}
+      </motion.div>
+
+      {/* Inner Dot */}
+      <motion.div
+        className="fixed top-0 left-0 z-50 pointer-events-none w-2 h-2 rounded-full bg-[#ccff00]"
+        animate={{
+          x: position.x - 4,
+          y: position.y - 4,
+          opacity: isHovered ? 0 : 1,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 1000,
+          damping: 50,
+        }}
       />
     </>
   );
