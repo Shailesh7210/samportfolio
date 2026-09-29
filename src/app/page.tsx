@@ -61,7 +61,7 @@ export default function Home() {
     { id: 'about', label: 'About', component: <About /> },
     { id: 'skills', label: 'Skills', component: <Skills /> },
     {
-      id: 'project-1',
+      id: 'projects',
       label: 'Machine Events Backend',
       component: <SingleProjectSlide project={PROJECTS[0]} />,
     },

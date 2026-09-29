@@ -57,8 +57,8 @@ export default function CustomCursor() {
           y: position.y - (isHovered ? 36 : 14),
           width: isHovered ? 72 : 28,
           height: isHovered ? 72 : 28,
-          backgroundColor: isHovered ? '#ccff00' : 'transparent',
-          borderColor: isHovered ? '#ccff00' : 'rgba(255, 255, 255, 0.4)',
+          backgroundColor: isHovered ? 'rgba(204, 255, 0, 1)' : 'rgba(204, 255, 0, 0)',
+          borderColor: isHovered ? 'rgba(204, 255, 0, 1)' : 'rgba(255, 255, 255, 0.4)',
           borderWidth: isHovered ? 0 : 1.5,
           scale: isHovered ? 1.15 : 1,
         }}
