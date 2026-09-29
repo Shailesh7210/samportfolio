@@ -17,26 +17,22 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const stInstanceRef = useRef<any>(null);
 
-  const scrollToSlide = useCallback(
-    (index: number) => {
-      let targetScroll = 0;
-      if (index > 0 && stInstanceRef.current) {
-        const st = stInstanceRef.current;
-        const totalSlides = sections.length;
-        targetScroll = st.start + (index / (totalSlides - 1)) * (st.end - st.start);
-      }
+  const scrollToSlide = useCallback((index: number) => {
+    if (index === 0) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
-      if (typeof window !== 'undefined' && (window as any).lenis) {
-        (window as any).lenis.scrollTo(targetScroll, { duration: 1.2 });
-      } else if (typeof window !== 'undefined') {
-        window.scrollTo({
-          top: targetScroll,
-          behavior: 'smooth',
-        });
-      }
-    },
-    [sections.length]
-  );
+    if (!stInstanceRef.current) return;
+    const st = stInstanceRef.current;
+    const totalSlides = sections.length;
+    const targetScroll = st.start + (index / (totalSlides - 1)) * (st.end - st.start);
+
+    window.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth',
+    });
+  }, [sections.length]);
 
   useEffect(() => {
     if (!containerRef.current || slideRefs.current.length === 0) return;
@@ -77,27 +73,29 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
 
       stInstanceRef.current = timeline.scrollTrigger;
 
-      // Initial state setup for 3D stack using autoAlpha for seamless forward/reverse visibility
+      // Initial state setup for 3D stack
       slideRefs.current.forEach((slide, i) => {
         if (!slide) return;
         if (i === 0) {
           gsap.set(slide, {
-            autoAlpha: 1,
+            opacity: 1,
             scale: 1,
             z: 0,
             pointerEvents: 'auto',
+            visibility: 'visible',
           });
         } else {
           gsap.set(slide, {
-            autoAlpha: 0,
+            opacity: 0,
             scale: 0.15,
             z: -1800,
             pointerEvents: 'none',
+            visibility: i === 1 ? 'visible' : 'hidden',
           });
         }
       });
 
-      // Build 3D spatial zoom transitions for each slide step using autoAlpha
+      // Build 3D spatial zoom transitions for each slide step
       for (let i = 0; i < totalSlides - 1; i++) {
         const currentSlide = slideRefs.current[i];
         const nextSlide = slideRefs.current[i + 1];
@@ -106,28 +104,43 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
 
         const stepLabel = `step-${i}`;
 
-        // 1. Current slide zooms forward into camera and auto-fades out (autoAlpha: 0)
+        // 1. Current slide zooms forward into camera and disappears
         timeline
           .to(
             currentSlide,
             {
               scale: 2.5,
               z: 800,
-              autoAlpha: 0,
+              opacity: 0,
               pointerEvents: 'none',
               ease: 'power1.in',
+              onStart: () => {
+                if (currentSlide) currentSlide.style.visibility = 'visible';
+              },
+              onComplete: () => {
+                if (currentSlide) currentSlide.style.visibility = 'hidden';
+              },
+              onReverseComplete: () => {
+                if (currentSlide) currentSlide.style.visibility = 'visible';
+              },
             },
             stepLabel
           )
-          // 2. Next slide flies in from deep space to screen center and auto-fades in (autoAlpha: 1)
+          // 2. Next slide flies in from deep space to screen center
           .to(
             nextSlide,
             {
               scale: 1,
               z: 0,
-              autoAlpha: 1,
+              opacity: 1,
               pointerEvents: 'auto',
               ease: 'power2.out',
+              onStart: () => {
+                if (nextSlide) nextSlide.style.visibility = 'visible';
+              },
+              onReverseComplete: () => {
+                if (nextSlide) nextSlide.style.visibility = 'hidden';
+              },
             },
             stepLabel
           );
@@ -142,11 +155,6 @@ export default function SpatialDeck({ sections }: SpatialDeckProps) {
     const handleNavEvent = (e: any) => {
       const targetId = e.detail?.id;
       if (!targetId) return;
-
-      if (targetId === 'hero' || targetId === '') {
-        scrollToSlide(0);
-        return;
-      }
 
       let targetIndex = sections.findIndex((sec) => sec.id === targetId);
 
