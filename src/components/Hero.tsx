@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import { ArrowDownRight } from 'lucide-react';
+import { scrollToSpatialSection } from '@/lib/navigation';
 
 interface HeroProps {
   ready?: boolean;
@@ -56,6 +57,11 @@ export default function Hero({ ready = true }: HeroProps) {
     return () => ctx.revert();
   }, [ready]);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    scrollToSpatialSection(id);
+  };
+
   return (
     <section
       id="hero"
@@ -66,7 +72,7 @@ export default function Hero({ ready = true }: HeroProps) {
       <div ref={labelRef} className="opacity-0">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 font-mono text-xs text-[#888890] uppercase tracking-widest">
           <span className="w-2 h-2 rounded-full bg-[#ccff00]"></span>
-          <span>SAMIA SABA // JAVA, SPRING BOOT & API DEVELOPER</span>
+          <span>SAMIA SABA // JAVA BACKEND DEVELOPER</span>
         </div>
       </div>
 
@@ -82,7 +88,7 @@ export default function Hero({ ready = true }: HeroProps) {
         <h1
           ref={titleLine2Ref}
           className="text-display-giant font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#f4f4f5] via-[#888890] to-[#ccff00] opacity-0"
-          data-cursor="DEVELOPER"
+          data-cursor="ENGINEER"
         >
           ENGINEER<span className="text-[#ccff00]">.</span>
         </h1>
@@ -99,6 +105,7 @@ export default function Hero({ ready = true }: HeroProps) {
         <div className="lg:col-span-5 flex flex-col sm:flex-row items-start sm:items-center lg:justify-end gap-4">
           <a
             href="#projects"
+            onClick={(e) => handleNavClick(e, 'projects')}
             className="group px-8 py-4 rounded-full bg-[#ccff00] text-black font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-white transition-colors duration-300 flex items-center gap-3 shadow-lg shadow-[#ccff00]/10"
             data-cursor="EXPLORE"
           >
@@ -107,6 +114,7 @@ export default function Hero({ ready = true }: HeroProps) {
           </a>
           <a
             href="#contact"
+            onClick={(e) => handleNavClick(e, 'contact')}
             className="px-8 py-4 rounded-full border border-white/15 bg-white/5 hover:border-white text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors duration-300"
             data-cursor="CONTACT"
           >
